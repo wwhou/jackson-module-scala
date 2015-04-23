@@ -35,3 +35,4 @@ sonatype.sbt
 # Vagrant
 /.vagrant/
 
+/bin/

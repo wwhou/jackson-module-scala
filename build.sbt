@@ -5,15 +5,20 @@ name := "jackson-module-scala"
 
 organization := "com.fasterxml.jackson.module"
 
-scalaVersion := "2.11.4”
+scalaVersion := "2.11.5"
+
+
+javacOptions ++= Seq("-source", "1.8", "-target", "1.8", "-Xlint:deprecation")
 
 scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature")
 
 scalacOptions in (Compile, compile) += "-Xfatal-warnings"
 
+libraryDependencies <<= (scalaVersion, libraryDependencies) { (sv, deps) =>
+  deps :+ ("org.scala-lang" % "scala-compiler" % sv)
+}
 
 libraryDependencies ++= Seq(
-    "org.scala-lang" % "scala-reflect" % "2.11.4",
     "com.fasterxml.jackson.core" % "jackson-core" % "2.5.2",
     "com.fasterxml.jackson.core" % "jackson-annotations" % "2.5.2",
     "com.fasterxml.jackson.core" % "jackson-databind" % "2.5.2",
@@ -34,12 +39,3 @@ resourceGenerators in Compile <+=
     IO.write(file, contents)
     Seq(file)
   }
-
-// site
-site.settings
-
-site.includeScaladoc()
-
-ghpages.settings
-
-git.remoteRepo := "git@github.com:FasterXML/jackson-module-scala.git"
